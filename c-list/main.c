@@ -3,29 +3,29 @@
 #include <memory.h>
 
 struct node {
+    int k;
+    int s;
     void *data;
-    int size;
-    int type;
     struct node *next;
 };
 
 struct node *list() {
     struct node *result = malloc(sizeof(struct node));
-    result->type = 1;
-    result->data = 0;
-    result->size = 0;
-    result->next = 0;
+    result->k = 1;
+    result->data = NULL;
+    result->s = 0;
+    result->next = NULL;
     return result;
 }
 
-struct node *list_add(struct node *n, int type, void *data, int size) {
+struct node *list_add(struct node *n, int k, void *data, int s) {
     struct node *result = malloc(sizeof(struct node));
-    result->type = type;
-    result->data = malloc(size);
-    result->size = size;
-    result->next = 0;
+    result->k = k;
+    result->data = malloc(s);
+    result->s = s;
+    result->next = NULL;
     n->next = result;
-    memcpy(result->data, data, size);
+    memcpy(result->data, data, s);
     return result;
 }
 
@@ -38,7 +38,7 @@ void list_for(struct node *n, void (*f)(struct node *i)) {
 }
 
 void list_print(struct node *n) {
-    printf("%i, %s\n", n->type, n->data);
+    printf("%i, %s\n", n->k, n->data);
 }
 
 void list_free(struct node *n) {
