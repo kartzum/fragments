@@ -60,4 +60,5 @@ void list_for_test() {
 
 int main() {
     list_for_test();
+    return 0;
 }
