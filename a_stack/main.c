@@ -12,20 +12,20 @@ struct a_node {
 
 struct a_stack {
     struct a_node **data;
-    int size;
+    int max_size;
     int top;
 };
 
 struct a_stack *a_stack() {
     struct a_stack *result = malloc(sizeof(struct a_stack));
-    result->size = 10;
+    result->max_size = 10;
     result->top = -1;
     result->data = NULL;
     return result;
 }
 
 void a_stack_push(struct a_stack *a, int k, int s, void *data) {
-    if (a->top + 1 >= a->size) {
+    if (a->top + 1 >= a->max_size) {
         return;
     }
 
@@ -33,7 +33,7 @@ void a_stack_push(struct a_stack *a, int k, int s, void *data) {
 
     struct a_node **d;
     if (a->data == NULL) {
-        d = malloc(sizeof(struct a_node *) * a->size);
+        d = malloc(sizeof(struct a_node *) * a->max_size);
         a->data = d;
     } else {
         d = a->data;
