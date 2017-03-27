@@ -73,7 +73,6 @@ void d_list_free(struct d_list *l) {
         free(s);
         s = next;
     }
-    free(l);
 }
 
 // d_list. Finish.
@@ -85,6 +84,7 @@ void d_list_for_test() {
     d_list_add(l, 3, 1, "3");
     d_list_for(l, d_list_printf);
     d_list_free(l);
+    free(l);
 }
 
 int main() {

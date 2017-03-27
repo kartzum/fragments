@@ -67,7 +67,6 @@ void l_list_free(struct l_list *l) {
         free(s);
         s = next;
     }
-    free(l);
 }
 
 // l_list. Finish.
@@ -79,6 +78,7 @@ void l_list_for_test() {
     l_list_add(l, 3, 1, "3");
     l_list_for(l, l_list_printf);
     l_list_free(l);
+    free(l);
 }
 
 int main() {

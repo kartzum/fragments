@@ -32,6 +32,11 @@ add_executable(d_list ${SOURCE_FILES})
 ```
 
 ## a_stack
+Stack.
+### Links
+* [Stack with array](https://www.cs.bu.edu/teaching/c/stack/array/)
+* [Pointers](http://c-faq.com/~scs/cgi-bin/faqcat.cgi?sec=aryptr)
+* [Chapter 23: Two-Dimensional (and Multidimensional) Arrays](https://www.eskimo.com/~scs/cclass/int/top.html)
 ### Make
 ```
 cmake_minimum_required(VERSION 3.6)

@@ -96,7 +96,6 @@ void a_stack_free(struct a_stack *a) {
         }
         i--;
     }
-    free(a);
 }
 
 // a_stack. Finish.
@@ -114,6 +113,7 @@ void a_stack_borders_test() {
     }
     a_stack_for(a, a_stack_printf);
     a_stack_free(a);
+    free(a);
 }
 
 void a_stack_free_test() {
@@ -121,6 +121,7 @@ void a_stack_free_test() {
     a_stack_push(a, 1, "1");
     a_stack_push(a, 1, "2");
     a_stack_free(a);
+    free(a);
 }
 
 int main() {
