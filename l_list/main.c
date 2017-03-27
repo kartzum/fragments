@@ -46,8 +46,17 @@ void l_list_for(struct l_list *l, void (*f)(struct l_node *i)) {
     }
 }
 
+void l_list_printf_c(int k, int s, void *data) {
+    printf("%d, ", k);
+    char *d = data;
+    for (int i = 0; i < s; i++) {
+        printf("%c", d[i]);
+    }
+    printf("\n");
+}
+
 void l_list_printf(struct l_node *n) {
-    printf("%i, %s\n", n->k, n->data);
+    l_list_printf_c(n->k, n->s, n->data);
 }
 
 void l_list_free(struct l_list *l) {
