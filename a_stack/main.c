@@ -84,8 +84,17 @@ void a_stack_printf_c(int k, int s, void *data) {
     printf("\n");
 }
 
-void a_stack_printf(struct a_node *n) {
+void a_stack_printf_i(int k, int s, void *data) {
+    int v = *((int *) data);
+    printf("%d, %d\n", k, v);
+}
+
+void a_stack_printf_s(struct a_node *n) {
     a_stack_printf_c(n->k, n->s, n->data);
+}
+
+void a_stack_printf_n(struct a_node *n) {
+    a_stack_printf_i(n->k, n->s, n->data);
 }
 
 void a_stack_free(struct a_stack *a) {
@@ -111,11 +120,11 @@ void a_stack_borders_test() {
     for (int i = 0; i < n; i++) {
         a_stack_push(a, i, 1, p[i]);
     }
-    a_stack_for(a, a_stack_printf);
+    a_stack_for(a, a_stack_printf_s);
     for (int j = 0; j < n; j++) {
-        a_stack_pop(a, a_stack_printf);
+        a_stack_pop(a, a_stack_printf_s);
     }
-    a_stack_for(a, a_stack_printf);
+    a_stack_for(a, a_stack_printf_s);
     a_stack_free(a);
     free(a);
 }
@@ -124,13 +133,26 @@ void a_stack_free_test() {
     struct a_stack *a = a_stack();
     a_stack_push(a, 1, 1, "1");
     a_stack_push(a, 2, 1, "2");
-    a_stack_for(a, a_stack_printf);
+    a_stack_for(a, a_stack_printf_s);
     a_stack_free(a);
+    free(a);
+}
+
+void a_stack_types_test() {
+    struct a_stack *a = a_stack();
+    int l1 = 110;
+    int l2 = 120;
+    int l3 = 130;
+    a_stack_push(a, 1, sizeof(l1), &l1);
+    a_stack_push(a, 2, sizeof(l2), &l2);
+    a_stack_push(a, 3, sizeof(l3), &l3);
+    a_stack_for(a, a_stack_printf_n);
     free(a);
 }
 
 int main() {
     a_stack_borders_test();
     a_stack_free_test();
+    a_stack_types_test();
     return 0;
 }
