@@ -30,3 +30,15 @@ set(CMAKE_C_STANDARD 11)
 set(SOURCE_FILES d_list/main.c)
 add_executable(d_list ${SOURCE_FILES})
 ```
+
+## a_stack
+### Make
+```
+cmake_minimum_required(VERSION 3.6)
+project(a_stack)
+
+set(CMAKE_C_STANDARD 11)
+
+set(SOURCE_FILES a_stack/main.c)
+add_executable(a_stack ${SOURCE_FILES})
+```
