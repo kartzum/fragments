@@ -13,12 +13,16 @@ struct a_node {
 struct a_stack {
     struct a_node **data;
     int max_size;
+    int min_size;
+    int size;
     int top;
 };
 
 struct a_stack *a_stack() {
     struct a_stack *result = malloc(sizeof(struct a_stack));
     result->max_size = 10;
+    result->min_size = 5;
+    result->size = 5;
     result->top = -1;
     result->data = NULL;
     return result;
@@ -29,11 +33,18 @@ void a_stack_push(struct a_stack *a, int k, int s, void *data) {
         return;
     }
 
+    struct a_node **d;
+
+    if (a->top + 1 >= a->size) {
+        a->size = a->size * 2;
+        d = realloc(a->data, sizeof(struct a_node *) * a->size);
+        a->data = d;
+    }
+
     a->top++;
 
-    struct a_node **d;
     if (a->data == NULL) {
-        d = malloc(sizeof(struct a_node *) * a->max_size);
+        d = malloc(sizeof(struct a_node *) * a->size);
         a->data = d;
     } else {
         d = a->data;
