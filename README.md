@@ -64,3 +64,18 @@ set(CMAKE_C_STANDARD 11)
 set(SOURCE_FILES y_array/main.c)
 add_executable(y_array ${SOURCE_FILES})
 ```
+
+## b_tree
+Binary tree.
+### Links
+* [Binary trees](http://www.learn-c.org/en/Binary_trees)
+### Make
+```
+cmake_minimum_required(VERSION 3.6)
+project(b_tree)
+
+set(CMAKE_C_STANDARD 11)
+
+set(SOURCE_FILES b_tree/main.c)
+add_executable(b_tree ${SOURCE_FILES})
+```
