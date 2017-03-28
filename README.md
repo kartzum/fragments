@@ -47,3 +47,20 @@ set(CMAKE_C_STANDARD 11)
 set(SOURCE_FILES a_stack/main.c)
 add_executable(a_stack ${SOURCE_FILES})
 ```
+
+## y_array
+Array.
+### Links
+* [Array](https://www.cs.swarthmore.edu/~newhall/unixhelp/C_arrays.html)
+* [ANSI C implementation of dynamic array, with interface similar to C++ std::vector](https://github.com/jibsen/scv)
+* [C](http://c-faq.com/index.html)
+### Make
+```
+cmake_minimum_required(VERSION 3.6)
+project(y_array)
+
+set(CMAKE_C_STANDARD 11)
+
+set(SOURCE_FILES y_array/main.c)
+add_executable(y_array ${SOURCE_FILES})
+```
