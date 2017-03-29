@@ -4,11 +4,25 @@
 
 // l. Start.
 
+// common. Start.
+
+struct l_code {
+    int iload; // load an int value from a local variable #index
+};
+
+struct l_code l_code() {
+    struct l_code result;
+    result.iload = 21;
+    return result;
+};
+
+// common. Finish.
+
 // code. Start.
 
 struct l_s_node {
-    char k;
-    char v;
+    int k;
+    int v;
 };
 
 struct l_s_code {
@@ -74,7 +88,7 @@ struct l_s_node **l_s_code_data(struct l_s_code *c, int i) {
     return d;
 }
 
-void l_s_code_set(struct l_s_code *c, int i, char k, char v) {
+void l_s_code_set(struct l_s_code *c, int i, int k, int v) {
     struct l_s_node **d = l_s_code_data(c, i);
     struct l_s_node *node = calloc(1, sizeof(struct l_s_node));
     node->k = k;
@@ -102,8 +116,9 @@ void l_s_code_printf_c(struct l_s_node *n) {
 
 void l_code_test(bool l) {
     struct l_s_code *c = l_s_code();
-    int i = 0;
-    l_s_code_set(c, i, 1, 2);
+    struct l_code code = l_code();
+    l_s_code_set(c, 0, code.iload, 0);
+    l_s_code_set(c, 1, code.iload, 1);
     if (l) {
         l_s_code_for(c, l_s_code_printf_c);
     }
