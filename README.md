@@ -5,31 +5,11 @@ Linked list.
 ### Links
 * [Linked lists](http://www.learn-c.org/en/Linked_lists)
 * [Practical Programming in C](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-087-practical-programming-in-c-january-iap-2010/index.htm)
-### Make
-```
-cmake_minimum_required(VERSION 3.6)
-project(l_list)
-
-set(CMAKE_C_STANDARD 11)
-
-set(SOURCE_FILES l_list/main.c)
-add_executable(l_list ${SOURCE_FILES})
-```
 
 ## d_list
 Doubly linked list.
 ### Links
 * [Doubly Linked List Program in C](https://www.tutorialspoint.com/data_structures_algorithms/doubly_linked_list_program_in_c.htm)
-### Make
-```
-cmake_minimum_required(VERSION 3.6)
-project(d_list)
-
-set(CMAKE_C_STANDARD 11)
-
-set(SOURCE_FILES d_list/main.c)
-add_executable(d_list ${SOURCE_FILES})
-```
 
 ## a_stack
 Stack.
@@ -37,16 +17,6 @@ Stack.
 * [Stack with array](https://www.cs.bu.edu/teaching/c/stack/array/)
 * [Pointers](http://c-faq.com/~scs/cgi-bin/faqcat.cgi?sec=aryptr)
 * [Chapter 23: Two-Dimensional (and Multidimensional) Arrays](https://www.eskimo.com/~scs/cclass/int/top.html)
-### Make
-```
-cmake_minimum_required(VERSION 3.6)
-project(a_stack)
-
-set(CMAKE_C_STANDARD 11)
-
-set(SOURCE_FILES a_stack/main.c)
-add_executable(a_stack ${SOURCE_FILES})
-```
 
 ## y_array
 Array.
@@ -54,28 +24,30 @@ Array.
 * [Array](https://www.cs.swarthmore.edu/~newhall/unixhelp/C_arrays.html)
 * [ANSI C implementation of dynamic array, with interface similar to C++ std::vector](https://github.com/jibsen/scv)
 * [C](http://c-faq.com/index.html)
-### Make
-```
-cmake_minimum_required(VERSION 3.6)
-project(y_array)
-
-set(CMAKE_C_STANDARD 11)
-
-set(SOURCE_FILES y_array/main.c)
-add_executable(y_array ${SOURCE_FILES})
-```
 
 ## b_tree
 Binary tree.
 ### Links
 * [Binary trees](http://www.learn-c.org/en/Binary_trees)
-### Make
+
+## lm_vm
+Light virtual machine.
+### Links
+* [simple-virtual-machine-C](https://github.com/parrt/simple-virtual-machine-C)
+* [The Java Virtual Machine Specification](https://stuff.mit.edu/afs/sipb/user/marc/hotjava/doc/vmspec/vmspec_1.html)
+* [Java bytecode instruction listings](https://en.wikipedia.org/wiki/Java_bytecode_instruction_listings)
+* [An Overview of C++ References](http://www-cs-students.stanford.edu/~sjac/c-to-cpp-info/references)
+
+## Make
 ```
 cmake_minimum_required(VERSION 3.6)
-project(b_tree)
+project(<name>)
 
 set(CMAKE_C_STANDARD 11)
 
-set(SOURCE_FILES b_tree/main.c)
-add_executable(b_tree ${SOURCE_FILES})
+set(SOURCE_FILES <name>/main.c)
+add_executable(<name> ${SOURCE_FILES})
 ```
+
+## Links & Notes
+* [C++ reference/C reference](http://en.cppreference.com/)

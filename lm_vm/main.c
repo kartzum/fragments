@@ -1,0 +1,121 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+
+// l. Start.
+
+// code. Start.
+
+struct l_s_node {
+    char k;
+    char v;
+};
+
+struct l_s_code {
+    struct l_s_node **data;
+    int size;
+};
+
+struct l_s_code *l_s_code() {
+    struct l_s_code *c = calloc(1, sizeof(struct l_s_code));
+    c->size = 5;
+    return c;
+}
+
+void l_s_code_free(struct l_s_code **c) {
+    struct l_s_code *c_i = *c;
+    struct l_s_node **d = c_i->data;
+    for (int i = 0; i < c_i->size; i++) {
+        if (d[i] != NULL) {
+            free(d[i]);
+            d[i] = NULL;
+        }
+    }
+    free(*c);
+    *c = NULL;
+}
+
+struct l_s_node **l_s_code_alloc(struct l_s_code *c) {
+    struct l_s_node **d = NULL;
+    if (c->data == NULL) {
+        d = calloc(1, sizeof(struct l_s_node *) * c->size);
+        c->data = d;
+    } else {
+        d = c->data;
+    }
+    return d;
+}
+
+struct l_s_node **l_s_code_realloc(struct l_s_code *c) {
+    struct l_s_node **d = NULL;
+    if (c->data == NULL) {
+        d = calloc(1, sizeof(struct l_s_node *) * c->size);
+        c->data = d;
+    } else {
+        d = realloc(c->data, sizeof(struct l_s_node *) * c->size);
+        c->data = d;
+    }
+    return d;
+}
+
+struct l_s_node **l_s_code_data(struct l_s_code *c, int i) {
+    struct l_s_node **d = NULL;
+    if (i >= 0) {
+        if (i < c->size) {
+            d = l_s_code_alloc(c);
+        } else if (i < c->size * 2) {
+            c->size = c->size * 2;
+            d = l_s_code_realloc(c);
+        } else {
+            c->size = c->size * ((i / c->size) + 1);
+            d = l_s_code_realloc(c);
+        }
+    }
+    return d;
+}
+
+void l_s_code_set(struct l_s_code *c, int i, char k, char v) {
+    struct l_s_node **d = l_s_code_data(c, i);
+    struct l_s_node *node = calloc(1, sizeof(struct l_s_node));
+    node->k = k;
+    node->v = v;
+    d[i] = node;
+}
+
+void l_s_code_for(struct l_s_code *c, void (*f)(struct l_s_node *i)) {
+    struct l_s_node **d = c->data;
+    for (int i = 0; i < c->size; i++) {
+        struct l_s_node *v = d[i];
+        if (v != NULL) {
+            (*f)(d[i]);
+        }
+    }
+}
+
+void l_s_code_printf_c(struct l_s_node *n) {
+    printf("%d, %d\n", n->k, n->v);
+}
+
+// code. Finish.
+
+// l. Finish.
+
+void l_code_test(bool l) {
+    struct l_s_code *c = l_s_code();
+    int i = 0;
+    l_s_code_set(c, i, 1, 2);
+    if (l) {
+        l_s_code_for(c, l_s_code_printf_c);
+    }
+    l_s_code_free(&c);
+    free(c);
+}
+
+void l_test(bool l) {
+    l_code_test(l);
+}
+
+int main() {
+    l_test(false);
+    return 0;
+}
