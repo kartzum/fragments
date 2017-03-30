@@ -10,6 +10,10 @@ struct lm_vm_op_code_data {
     char iadd;       // add two ints
 };
 
+struct lm_vm_stack_command_data {
+    char i;
+};
+
 struct lm_vm_vm {
     int code_size;
     char *code;
@@ -29,6 +33,17 @@ struct lm_vm_op_code_data *lm_vm_op_code_data() {
 void lm_vm_op_code_data_free(struct lm_vm_op_code_data **op_code_data) {
     struct lm_vm_op_code_data *op_code_data_i = *op_code_data;
     free(op_code_data_i);
+}
+
+struct lm_vm_stack_command_data *lm_vm_stack_command_data() {
+    struct lm_vm_stack_command_data *result = calloc(1, sizeof(struct lm_vm_stack_command_data));
+    result->i = 1;
+    return result;
+}
+
+void lm_vm_stack_command_data_free(struct lm_vm_stack_command_data **stack_command_data) {
+    struct lm_vm_stack_command_data *stack_command_data_i = *stack_command_data;
+    free(stack_command_data_i);
 }
 
 struct lm_vm_vm *lm_vm_vm(int code_size, char *code) {
@@ -63,7 +78,11 @@ void lm_vm_unpack(long c, int *a, int *b) {
     *b = (int) (c);
 }
 
-void lm_vm_vm_exec(struct lm_vm_vm *vm, struct lm_vm_op_code_data *op_code_data, bool trace) {
+void lm_vm_vm_exec(
+        struct lm_vm_vm *vm,
+        struct lm_vm_op_code_data *op_code_data,
+        struct lm_vm_stack_command_data *stack_command_data,
+        bool trace) {
     char o = vm->code[vm->ip];
     while (vm->ip < vm->code_size) {
         if (trace) {
@@ -72,7 +91,7 @@ void lm_vm_vm_exec(struct lm_vm_vm *vm, struct lm_vm_op_code_data *op_code_data,
         vm->ip++;
         if (op_code_data->iconst_m1 == o) {
             vm->sp++;
-            long d = lm_vm_pack(1, -1);
+            long d = lm_vm_pack(stack_command_data->i, -1);
             vm->stack[vm->sp] = d;
         } else if (op_code_data->iadd == o) {
             int c0 = 0;
@@ -86,7 +105,7 @@ void lm_vm_vm_exec(struct lm_vm_vm *vm, struct lm_vm_op_code_data *op_code_data,
             lm_vm_unpack(d1, &c1, &v1);
             vm->sp--;
             vm->sp++;
-            long d = lm_vm_pack(2, v0 + v1);
+            long d = lm_vm_pack(stack_command_data->i, v0 + v1);
             vm->stack[vm->sp] = d;
         }
         o = vm->code[vm->ip];
@@ -97,16 +116,18 @@ void lm_vm_vm_exec(struct lm_vm_vm *vm, struct lm_vm_op_code_data *op_code_data,
 
 void lm_vm_init_test(bool trace) {
     struct lm_vm_op_code_data *op_code_data = lm_vm_op_code_data();
+    struct lm_vm_stack_command_data *stack_command_data = lm_vm_stack_command_data();
     int code_size = 5;
     char *code = calloc(code_size, sizeof(char));
     code[0] = op_code_data->iconst_m1;
     code[1] = op_code_data->iconst_m1;
     code[2] = op_code_data->iadd;
     struct lm_vm_vm *vm = lm_vm_vm(code_size, code);
-    lm_vm_vm_exec(vm, op_code_data, trace);
+    lm_vm_vm_exec(vm, op_code_data, stack_command_data, trace);
     free(code);
     lm_vm_vm_free(&vm);
     lm_vm_op_code_data_free(&op_code_data);
+    lm_vm_stack_command_data_free(&stack_command_data);
 }
 
 void lm_vm_test(bool trace) {
