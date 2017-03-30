@@ -14,7 +14,9 @@ struct lm_vm_vm {
     int code_size;
     char *code;
     int stack_size;
-    int *stack;
+    long *stack;
+    int ip;
+    int sp;
 };
 
 struct lm_vm_op_code_data *lm_vm_op_code_data() {
@@ -35,7 +37,9 @@ struct lm_vm_vm *lm_vm_vm(int code_size, char *code) {
     vm->code_size = code_size;
     memcpy(vm->code, code, code_size);
     vm->stack_size = 100;
-    vm->stack = calloc(vm->stack_size, sizeof(int));
+    vm->stack = calloc(vm->stack_size, sizeof(long));
+    vm->ip = 0;
+    vm->sp = -1;
     return vm;
 }
 
@@ -46,28 +50,46 @@ void lm_vm_vm_free(struct lm_vm_vm **vm) {
     free(vm_i);
 }
 
-void lm_vm_trace_code(struct lm_vm_vm *vm, int ip) {
-    printf("%d:%d\n", ip, vm->code[ip]);
+void lm_vm_trace_code(struct lm_vm_vm *vm) {
+    printf("%d:%d\n", vm->ip, vm->code[vm->ip]);
+}
+
+long lm_vm_pack(int a, int b) {
+    return (long) a << 32 | b & 0xFFFFFFFFL;
+}
+
+void lm_vm_unpack(long c, int *a, int *b) {
+    *a = (int) (c >> 32);
+    *b = (int) (c);
 }
 
 void lm_vm_vm_exec(struct lm_vm_vm *vm, struct lm_vm_op_code_data *op_code_data, bool trace) {
-    int ip = 0;
-    int sp = -1;
-
-    char o = vm->code[ip];
-    while (ip < vm->code_size) {
+    char o = vm->code[vm->ip];
+    while (vm->ip < vm->code_size) {
         if (trace) {
-            lm_vm_trace_code(vm, ip);
+            lm_vm_trace_code(vm);
         }
-        ip++;
+        vm->ip++;
         if (op_code_data->iconst_m1 == o) {
-            vm->stack[++sp] = -1;
-        } else if(op_code_data->iadd == o) {
-            int v0 = vm->stack[sp--];
-            int v1 = vm->stack[sp--];
-            vm->stack[++sp] = v0 + v1;
+            vm->sp++;
+            long d = lm_vm_pack(1, -1);
+            vm->stack[vm->sp] = d;
+        } else if (op_code_data->iadd == o) {
+            int c0 = 0;
+            int v0 = 0;
+            long d0 = vm->stack[vm->sp];
+            lm_vm_unpack(d0, &c0, &v0);
+            vm->sp--;
+            int c1 = 0;
+            int v1 = 0;
+            long d1 = vm->stack[vm->sp];
+            lm_vm_unpack(d1, &c1, &v1);
+            vm->sp--;
+            vm->sp++;
+            long d = lm_vm_pack(2, v0 + v1);
+            vm->stack[vm->sp] = d;
         }
-        o = vm->code[ip];
+        o = vm->code[vm->ip];
     }
 }
 
