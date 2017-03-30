@@ -14,6 +14,17 @@ struct lm_vm_stack_command_data {
     char i;
 };
 
+struct lm_vm_y_node {
+    int k;
+    int s;
+    void *data;
+};
+
+struct lm_vm_y_array {
+    struct lm_vm_y_node **data;
+    int size;
+};
+
 struct lm_vm_vm {
     int code_size;
     char *code;
@@ -21,6 +32,9 @@ struct lm_vm_vm {
     long *stack;
     int ip;
     int sp;
+    struct lm_vm_y_array *storage;
+    int storage_type_int;
+    int storage_i_m1_index;
 };
 
 struct lm_vm_op_code_data *lm_vm_op_code_data() {
@@ -46,6 +60,95 @@ void lm_vm_stack_command_data_free(struct lm_vm_stack_command_data **stack_comma
     free(stack_command_data_i);
 }
 
+struct lm_vm_y_array *lm_vm_y_array() {
+    struct lm_vm_y_array *result = calloc(1, sizeof(struct lm_vm_y_array));
+    result->size = 2;
+    return result;
+}
+
+struct lm_vm_y_node **lm_vm_y_array_alloc(struct lm_vm_y_array *a) {
+    struct lm_vm_y_node **d = NULL;
+    if (a->data == NULL) {
+        d = calloc(1, sizeof(struct lm_vm_y_node *) * a->size);
+        a->data = d;
+    } else {
+        d = a->data;
+    }
+    return d;
+}
+
+struct lm_vm_y_node **lm_vm_y_array_realloc(struct lm_vm_y_array *a) {
+    struct lm_vm_y_node **d = NULL;
+    if (a->data == NULL) {
+        d = calloc(1, sizeof(struct lm_vm_y_node *) * a->size);
+        a->data = d;
+    } else {
+        d = realloc(a->data, sizeof(struct lm_vm_y_node *) * a->size);
+        a->data = d;
+    }
+    return d;
+}
+
+struct lm_vm_y_node **lm_vm_y_array_data(struct lm_vm_y_array *a, int i) {
+    struct lm_vm_y_node **d = NULL;
+    if (i >= 0) {
+        if (i < a->size) {
+            d = lm_vm_y_array_alloc(a);
+        } else if (i < a->size * 2) {
+            a->size = a->size * 2;
+            d = lm_vm_y_array_realloc(a);
+        } else {
+            a->size = a->size * ((i / a->size) + 1);
+            d = lm_vm_y_array_realloc(a);
+        }
+    }
+    return d;
+}
+
+void lm_vm_y_array_set(struct lm_vm_y_array *a, int i, int k, int s, void *data) {
+    struct lm_vm_y_node **d = lm_vm_y_array_data(a, i);
+    if (d != NULL) {
+        struct lm_vm_y_node *node = calloc(1, sizeof(struct lm_vm_y_node));
+        node->data = malloc(s);
+        node->s = s;
+        node->k = k;
+        memcpy(node->data, data, s);
+        d[i] = node;
+    }
+}
+
+struct lm_vm_y_node *lm_vm_y_array_get_i(struct lm_vm_y_array *a, int i) {
+    struct lm_vm_y_node *result = NULL;
+    if (i >= 0 && i < a->size) {
+        struct lm_vm_y_node **d = a->data;
+        result = d[i];
+    }
+    return result;
+}
+
+void lm_vm_y_array_free(struct lm_vm_y_array **a) {
+    struct lm_vm_y_array *a_i = *a;
+    struct lm_vm_y_node **d = a_i->data;
+    for (int i = 0; i < a_i->size; i++) {
+        if (d[i] != NULL) {
+            free(d[i]->data);
+            free(d[i]);
+            d[i] = NULL;
+        }
+    }
+    free(a_i);
+}
+
+void lm_vm_vm_storage_add_int(struct lm_vm_vm *vm, int i, int v) {
+    lm_vm_y_array_set(vm->storage, i, vm->storage_type_int, sizeof(int), &v);
+}
+
+int lm_vm_vm_storage_get_int(struct lm_vm_vm *vm, int i) {
+    struct lm_vm_y_node *node = lm_vm_y_array_get_i(vm->storage, i);
+    int v = *((int *) node->data);
+    return v;
+}
+
 struct lm_vm_vm *lm_vm_vm(int code_size, char *code) {
     struct lm_vm_vm *vm = calloc(1, sizeof(struct lm_vm_vm));
     vm->code = malloc(code_size);
@@ -55,11 +158,17 @@ struct lm_vm_vm *lm_vm_vm(int code_size, char *code) {
     vm->stack = calloc(vm->stack_size, sizeof(long));
     vm->ip = 0;
     vm->sp = -1;
+    struct lm_vm_y_array *storage = lm_vm_y_array();
+    vm->storage = storage;
+    vm->storage_type_int = 1;
+    vm->storage_i_m1_index = 0;
+    lm_vm_vm_storage_add_int(vm, vm->storage_i_m1_index, -1);
     return vm;
 }
 
 void lm_vm_vm_free(struct lm_vm_vm **vm) {
     struct lm_vm_vm *vm_i = *vm;
+    lm_vm_y_array_free(&vm_i->storage);
     free(vm_i->code);
     free(vm_i->stack);
     free(vm_i);
@@ -91,7 +200,7 @@ void lm_vm_vm_exec(
         vm->ip++;
         if (op_code_data->iconst_m1 == o) {
             vm->sp++;
-            long d = lm_vm_pack(stack_command_data->i, -1);
+            long d = lm_vm_pack(stack_command_data->i, lm_vm_vm_storage_get_int(vm, vm->storage_i_m1_index));
             vm->stack[vm->sp] = d;
         } else if (op_code_data->iadd == o) {
             int c0 = 0;
