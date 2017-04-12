@@ -38,6 +38,12 @@ Light virtual machine.
 * [Java bytecode instruction listings](https://en.wikipedia.org/wiki/Java_bytecode_instruction_listings)
 * [An Overview of C++ References](http://www-cs-students.stanford.edu/~sjac/c-to-cpp-info/references)
 
+## a_thrd
+Threads fragments.
+## Links
+* [pthreads in C – a minimal working example](http://timmurphy.org/2010/05/04/pthreads-in-c-a-minimal-working-example/)
+* [POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)
+
 ## Make
 ```
 cmake_minimum_required(VERSION 3.6)
