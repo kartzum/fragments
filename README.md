@@ -44,6 +44,10 @@ Threads fragments.
 * [pthreads in C – a minimal working example](http://timmurphy.org/2010/05/04/pthreads-in-c-a-minimal-working-example/)
 * [POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)
 
+## a_palindrome
+## Links
+* [Palindrome](https://en.wikipedia.org/wiki/Palindrome)
+
 ## Make
 ```
 cmake_minimum_required(VERSION 3.6)
