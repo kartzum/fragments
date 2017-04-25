@@ -40,15 +40,18 @@ Light virtual machine.
 
 ## a_thrd
 Threads fragments.
-## Links
+### Links
 * [pthreads in C – a minimal working example](http://timmurphy.org/2010/05/04/pthreads-in-c-a-minimal-working-example/)
 * [POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)
 
 ## a_palindrome
-## Links
+### Links
 * [Palindrome](https://en.wikipedia.org/wiki/Palindrome)
 
 ## a_small
+### Links
+* [std::stack](http://en.cppreference.com/w/cpp/container/stack)
+* [bracket_sequences](http://e-maxx.ru/algo/bracket_sequences)
 
 ## Make
 ```
