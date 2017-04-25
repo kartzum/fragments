@@ -48,6 +48,8 @@ Threads fragments.
 ## Links
 * [Palindrome](https://en.wikipedia.org/wiki/Palindrome)
 
+## a_small
+
 ## Make
 ```
 cmake_minimum_required(VERSION 3.6)
