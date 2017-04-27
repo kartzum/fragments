@@ -49,9 +49,13 @@ Threads fragments.
 * [Palindrome](https://en.wikipedia.org/wiki/Palindrome)
 
 ## a_small
+* check_braces
+* reverse_polish_notation
 ### Links
 * [std::stack](http://en.cppreference.com/w/cpp/container/stack)
 * [bracket_sequences](http://e-maxx.ru/algo/bracket_sequences)
+* [Reverse Polish notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
+* [Reverse Polish notation](http://algolist.manual.ru/syntax/revpn.php)
 
 ## Make
 ```
