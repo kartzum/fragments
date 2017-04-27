@@ -1,3 +1,1 @@
-#sources
-*.c text
-*.cpp text
+static/* linguist-vendored
