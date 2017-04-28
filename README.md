@@ -57,6 +57,8 @@ Threads fragments.
 * [bracket_sequences](http://e-maxx.ru/algo/bracket_sequences)
 * [Reverse Polish notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
 * [Reverse Polish notation](http://algolist.manual.ru/syntax/revpn.php)
+* [Breadth first search and depth first search](https://www.ics.uci.edu/~eppstein/161/960215.html)
+* [Introduction to Graph with Breadth First Search(BFS) and Depth First Search(DFS) Traversal Implemented in JAVA](https://www.codeproject.com/Articles/32212/Introduction-to-Graph-with-Breadth-First-Search-BF)
 
 ## Make
 ```
