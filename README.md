@@ -51,6 +51,7 @@ Threads fragments.
 ## a_small
 * check_braces
 * reverse_polish_notation
+* breadth_first_search
 ### Links
 * [std::stack](http://en.cppreference.com/w/cpp/container/stack)
 * [bracket_sequences](http://e-maxx.ru/algo/bracket_sequences)
